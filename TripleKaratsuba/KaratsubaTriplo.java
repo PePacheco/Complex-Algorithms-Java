@@ -4,7 +4,7 @@
 	Autor: Pedro Gomes Rubbo Pacheco
 */
 
-package T1;
+package TripleKaratsuba;
 
 import java.lang.Math;
 
