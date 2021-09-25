@@ -84,29 +84,25 @@ class DynamicProgramming {
 			if (i < entryLength && entry.charAt(i) == '1') {
 				if (memory.containsKey(Integer.toString(i -1) + String.valueOf(wasTriple)) && entry.charAt(i - 1) == '1') {
 					d1 += memory.get(Integer.toString(i-1) + String.valueOf(wasTriple));
-					// System.out.println("D1: "+ d1);
 				} 
 				if (memory.containsKey(Integer.toString(i-2) + String.valueOf(wasTriple)) && entry.charAt(i - 2) == '1') {
 					d2 += memory.get(Integer.toString(i-2) + String.valueOf(wasTriple));
-					// System.out.println("D2: " + d2);
 				}
 
-				if (i > 2) {
+				if (i > 2 && entry.charAt(i - 3) == '1') {
 					memory.put(Integer.toString(i) + String.valueOf(!wasTriple), memory.get(Integer.toString(i-3) + String.valueOf(wasTriple)));
 				}
 
 				if (memory.containsKey(Integer.toString(i-1) + String.valueOf(!wasTriple)) && entry.charAt(i - 1) == '1') {
 					t1 += memory.get(Integer.toString(i-1) + String.valueOf(!wasTriple));
-					// System.out.println("T1: " + t1);
 				}
 
 				if (memory.containsKey(Integer.toString(i-2) + String.valueOf(!wasTriple)) && entry.charAt(i - 2) == '1') {
 					t2 += memory.get(Integer.toString(i-2) + String.valueOf(!wasTriple));
-					// System.out.println("T2: " + t2);
 				}
 
 				res = t1 + t2 + d1 + d2;
-				if (i != 0) {
+				if (i != 0 && entry.charAt(i) == '1') {
 					memory.put(Integer.toString(i) + String.valueOf(wasTriple), res);
 				}
 				if (i == entryLength - 1 && memory.containsKey(Integer.toString(i-3) + String.valueOf(wasTriple))) {
