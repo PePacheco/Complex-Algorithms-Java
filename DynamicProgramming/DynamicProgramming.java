@@ -9,14 +9,14 @@ package DynamicProgramming;
 import java.util.HashMap;
 
 class DynamicProgramming {
-	static HashMap<String, Integer> memory = new HashMap<>();
+	static HashMap<String, Long> memory = new HashMap<>();
 	public static void main(String[] args) {
 		System.out.println("Recursivo: " + recursive(args[0], args[0].length(), 0, true));
 		System.out.println("Com memória: " + recursiveWithMemory(args[0], args[0].length(), 0, true));
 		System.out.println("Iterando: " + notRecursive(args[0], args[0].length()));
 	}
 
-	public static int recursive(String entry, int entryLength, int e1, boolean wasNot3Jump) {
+	public static long recursive(String entry, int entryLength, int e1, boolean wasNot3Jump) {
 
 		if (e1 >= entryLength) {
 			return 0;
@@ -30,7 +30,7 @@ class DynamicProgramming {
 			return 1;
 		}
 
-		int res = 0;
+		long res = 0;
 
 		res = recursive(entry, entryLength, e1 + 1, true) + recursive(entry, entryLength, e1 + 2, true);
 		if (wasNot3Jump) {
@@ -40,7 +40,7 @@ class DynamicProgramming {
 		return res;
 	}
 
-	public static int recursiveWithMemory(String entry, int entryLength, int e1, Boolean wasNot3Jump) {
+	public static long recursiveWithMemory(String entry, int entryLength, int e1, Boolean wasNot3Jump) {
 
 		if (e1 >= entryLength) {
 			return 0;
@@ -58,7 +58,7 @@ class DynamicProgramming {
 			return memory.get(entry.substring(0, e1) + String.valueOf(wasNot3Jump));
 		}
 
-		int res = 0;
+		long res = 0;
 
 		res = recursiveWithMemory(entry, entryLength, e1 + 1, true) + recursiveWithMemory(entry, entryLength, e1 + 2, true);
 		if (wasNot3Jump) {
@@ -70,43 +70,43 @@ class DynamicProgramming {
 		return res;
 	}
 
-	public static int notRecursive(String entry, int entryLength) {
-		int res = 1;
+	public static long notRecursive(String entry, int entryLength) {
+		long res = 1;
 
-		HashMap<String, Integer> memory = new HashMap<>();
+		HashMap<String, Long> memory = new HashMap<>();
 		boolean wasTriple = false;
 
 		for (int i = 0; i < entryLength; i++) {
 			if (i == 0 ){
-				memory.put(Integer.toString(i) + String.valueOf(wasTriple), res);
+				memory.put(Long.toString(i) + String.valueOf(wasTriple), res);
 			}
-			int d1 = 0, d2 = 0, t1 = 0, t2 = 0;
+			long d1 = 0, d2 = 0, t1 = 0, t2 = 0;
 			if (i < entryLength && entry.charAt(i) == '1') {
-				if (memory.containsKey(Integer.toString(i -1) + String.valueOf(wasTriple)) && entry.charAt(i - 1) == '1') {
-					d1 += memory.get(Integer.toString(i-1) + String.valueOf(wasTriple));
+				if (memory.containsKey(Long.toString(i -1) + String.valueOf(wasTriple)) && entry.charAt(i - 1) == '1') {
+					d1 += memory.get(Long.toString(i-1) + String.valueOf(wasTriple));
 				} 
-				if (memory.containsKey(Integer.toString(i-2) + String.valueOf(wasTriple)) && entry.charAt(i - 2) == '1') {
-					d2 += memory.get(Integer.toString(i-2) + String.valueOf(wasTriple));
+				if (memory.containsKey(Long.toString(i-2) + String.valueOf(wasTriple)) && entry.charAt(i - 2) == '1') {
+					d2 += memory.get(Long.toString(i-2) + String.valueOf(wasTriple));
 				}
 
 				if (i > 2 && entry.charAt(i - 3) == '1') {
-					memory.put(Integer.toString(i) + String.valueOf(!wasTriple), memory.get(Integer.toString(i-3) + String.valueOf(wasTriple)));
+					memory.put(Long.toString(i) + String.valueOf(!wasTriple), memory.get(Long.toString(i-3) + String.valueOf(wasTriple)));
 				}
 
-				if (memory.containsKey(Integer.toString(i-1) + String.valueOf(!wasTriple)) && entry.charAt(i - 1) == '1') {
-					t1 += memory.get(Integer.toString(i-1) + String.valueOf(!wasTriple));
+				if (memory.containsKey(Long.toString(i-1) + String.valueOf(!wasTriple)) && entry.charAt(i - 1) == '1') {
+					t1 += memory.get(Long.toString(i-1) + String.valueOf(!wasTriple));
 				}
 
-				if (memory.containsKey(Integer.toString(i-2) + String.valueOf(!wasTriple)) && entry.charAt(i - 2) == '1') {
-					t2 += memory.get(Integer.toString(i-2) + String.valueOf(!wasTriple));
+				if (memory.containsKey(Long.toString(i-2) + String.valueOf(!wasTriple)) && entry.charAt(i - 2) == '1') {
+					t2 += memory.get(Long.toString(i-2) + String.valueOf(!wasTriple));
 				}
 
 				res = t1 + t2 + d1 + d2;
 				if (i != 0 && entry.charAt(i) == '1') {
-					memory.put(Integer.toString(i) + String.valueOf(wasTriple), res);
+					memory.put(Long.toString(i) + String.valueOf(wasTriple), res);
 				}
-				if (i == entryLength - 1 && memory.containsKey(Integer.toString(i-3) + String.valueOf(wasTriple))) {
-					res += memory.get(Integer.toString(i-3) + String.valueOf(wasTriple));
+				if (i == entryLength - 1 && memory.containsKey(Long.toString(i-3) + String.valueOf(wasTriple))) {
+					res += memory.get(Long.toString(i-3) + String.valueOf(wasTriple));
 				}
 			}
 		}
